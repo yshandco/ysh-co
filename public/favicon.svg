@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <rect width="64" height="64" fill="#000000" />
+  <!-- Minimalist Geometric YSH Monogram -->
+  <g stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none">
+    <!-- Y component -->
+    <path d="M16 16 L24 28 L32 16" />
+    <path d="M24 28 L24 38" />
+    <!-- S curve component -->
+    <path d="M38 18 C32 18 28 22 28 26 C28 32 38 32 38 38 C38 42 34 46 28 46" />
+    <!-- H component -->
+    <path d="M40 22 L40 46" />
+    <path d="M50 22 L50 46" />
+    <path d="M40 34 L50 34" />
+  </g>
+</svg>

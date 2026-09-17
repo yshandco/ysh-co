@@ -1,0 +1,107 @@
+@import "tailwindcss";
+
+@theme {
+  --color-black: #000000;
+  --color-white: #FFFFFF;
+  --color-graphite: #111111;
+  --color-dark-grey: #1A1A1A;
+  --color-grey: #777777;
+  --color-light-grey: #D9D9D9;
+  --font-sans: 'Inter', 'Manrope', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-display: 'Inter', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+
+:root {
+  color-scheme: dark;
+  --bg-black: #000000;
+  --bg-graphite: #111111;
+  --bg-dark-grey: #1A1A1A;
+  --text-white: #FFFFFF;
+  --text-light-grey: #D9D9D9;
+  --text-grey: #777777;
+}
+
+/* Custom modern scrollbar */
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: #000000;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #222222;
+  border-radius: 2px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #444444;
+}
+
+/* Cursor custom reset for desktop */
+@media (pointer: fine) {
+  body {
+    cursor: none;
+  }
+  a, button, [role="button"], input, textarea, select {
+    cursor: none;
+  }
+}
+
+/* Noise overlay for cinematic luxury depth */
+.film-grain {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.032;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+}
+
+/* Smooth letter spacing & typography */
+.tracking-tightest {
+  letter-spacing: -0.06em;
+}
+
+.tracking-tighter {
+  letter-spacing: -0.04em;
+}
+
+.tracking-tight {
+  letter-spacing: -0.02em;
+}
+
+.tracking-widest-editorial {
+  letter-spacing: 0.28em;
+}
+
+/* Responsive typography utilities */
+.fluid-hero {
+  font-size: clamp(2.8rem, 9.5vw, 10rem);
+  line-height: 0.88;
+}
+
+.fluid-subhero {
+  font-size: clamp(1.75rem, 5.5vw, 5.5rem);
+  line-height: 0.96;
+}
+
+.fluid-statement {
+  font-size: clamp(2.2rem, 6.8vw, 7.5rem);
+  line-height: 0.94;
+}
+
+/* Reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
