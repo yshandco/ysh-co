@@ -12,7 +12,7 @@ export const ContactModal = ({ isOpen, onClose }) => {
     message: '',
   });
 
-  const email = 'contact@ysh.co';
+  const email = 'hello@yshandco.com';
 
   useEffect(() => {
     const handleKeyDown = (e) => {
@@ -31,6 +31,17 @@ export const ContactModal = ({ isOpen, onClose }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!formData.email) return;
+
+    // Dispatch directly to hello@yshandco.com
+    const subject = encodeURIComponent(`[Inquiry - ${formData.scope}] from ${formData.name || 'Website Visitor'}`);
+    const body = encodeURIComponent(
+      `Name: ${formData.name}\n` +
+      `Email: ${formData.email}\n` +
+      `Scope: ${formData.scope}\n\n` +
+      `Message / Brief:\n${formData.message}`
+    );
+    window.location.href = `mailto:${email}?subject=${subject}&body=${body}`;
+
     setSubmitted(true);
     setTimeout(() => {
       setSubmitted(false);

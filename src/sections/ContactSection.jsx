@@ -67,12 +67,12 @@ export const ContactSection = ({ onTalkClick }) => {
             </button>
 
             <a
-              href="mailto:contact@ysh.co"
+              href="mailto:hello@yshandco.com"
               className="inline-flex items-center gap-2 text-xs font-mono tracking-widest text-zinc-400 hover:text-white py-3 px-4 border border-white/10 hover:border-white/40 transition-colors"
               data-cursor="hover"
             >
               <Mail size={14} />
-              <span>DIRECT DISPATCH: CONTACT@YSH.CO</span>
+              <span>DIRECT DISPATCH: HELLO@YSHANDCO.COM</span>
             </a>
           </div>
         </div>

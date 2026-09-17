@@ -87,6 +87,16 @@ export const Footer = ({ onOpenContact }) => {
               <ul className="space-y-3 text-xs font-mono tracking-wider">
                 <li>
                   <a
+                    href="mailto:hello@yshandco.com"
+                    className="text-zinc-400 hover:text-white transition-colors duration-200 inline-flex items-center gap-1.5"
+                    data-cursor="hover"
+                  >
+                    <span>hello@yshandco.com</span>
+                    <span className="text-zinc-600">↗</span>
+                  </a>
+                </li>
+                <li>
+                  <a
                     href="https://www.instagram.com/yshandco"
                     target="_blank"
                     rel="noopener noreferrer"
