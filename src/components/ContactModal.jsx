@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Check, Copy, ArrowRight } from 'lucide-react';
+import { X, Check, Copy, ArrowRight, Loader2 } from 'lucide-react';
 
 export const ContactModal = ({ isOpen, onClose }) => {
   const [copied, setCopied] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -28,26 +29,59 @@ export const ContactModal = ({ isOpen, onClose }) => {
     setTimeout(() => setCopied(false), 2400);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!formData.email) return;
+    if (!formData.email || loading) return;
 
-    // Dispatch directly to hello@yshandco.com
-    const subject = encodeURIComponent(`[Inquiry - ${formData.scope}] from ${formData.name || 'Website Visitor'}`);
-    const body = encodeURIComponent(
-      `Name: ${formData.name}\n` +
-      `Email: ${formData.email}\n` +
-      `Scope: ${formData.scope}\n\n` +
-      `Message / Brief:\n${formData.message}`
-    );
-    window.location.href = `mailto:${email}?subject=${subject}&body=${body}`;
+    setLoading(true);
 
-    setSubmitted(true);
-    setTimeout(() => {
-      setSubmitted(false);
-      onClose();
-      setFormData({ name: '', email: '', scope: 'Venture Partnership', message: '' });
-    }, 2800);
+    try {
+      const response = await fetch(`https://formsubmit.co/ajax/${email}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          _subject: `[YSH&CO Inquiry] ${formData.scope} - ${formData.name}`,
+          scope: formData.scope,
+          message: formData.message,
+          _template: 'table',
+          _captcha: 'false'
+        })
+      });
+
+      if (!response.ok) {
+        throw new Error('Transmission request unsuccessful');
+      }
+
+      setSubmitted(true);
+      setTimeout(() => {
+        setSubmitted(false);
+        onClose();
+        setFormData({ name: '', email: '', scope: 'Venture Partnership', message: '' });
+      }, 3500);
+    } catch (err) {
+      console.warn('Direct HTTP dispatch fallback triggered:', err);
+      const subject = encodeURIComponent(`[Inquiry - ${formData.scope}] from ${formData.name || 'Website Visitor'}`);
+      const body = encodeURIComponent(
+        `Name: ${formData.name}\n` +
+        `Email: ${formData.email}\n` +
+        `Scope: ${formData.scope}\n\n` +
+        `Message / Brief:\n${formData.message}`
+      );
+      window.location.href = `mailto:${email}?subject=${subject}&body=${body}`;
+      setSubmitted(true);
+      setTimeout(() => {
+        setSubmitted(false);
+        onClose();
+        setFormData({ name: '', email: '', scope: 'Venture Partnership', message: '' });
+      }, 3000);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -98,7 +132,7 @@ export const ContactModal = ({ isOpen, onClose }) => {
                 </div>
                 <h4 className="text-xl font-medium tracking-tight">Transmission Received</h4>
                 <p className="text-sm text-zinc-400 max-w-sm mx-auto font-light">
-                  Thank you for reaching out to YSH&CO. We review inquiries directly and respond to aligned opportunities.
+                  Your dispatch has been delivered directly to <span className="text-white font-mono">{email}</span>. We review all incoming inquiries directly.
                 </p>
               </div>
             ) : (
@@ -196,11 +230,21 @@ export const ContactModal = ({ isOpen, onClose }) => {
 
                   <button
                     type="submit"
-                    className="w-full mt-4 py-3.5 bg-white text-black font-semibold text-xs tracking-[0.2em] uppercase hover:bg-zinc-200 transition-all flex items-center justify-center gap-2 group"
+                    disabled={loading}
+                    className="w-full mt-4 py-3.5 bg-white text-black font-semibold text-xs tracking-[0.2em] uppercase hover:bg-zinc-200 transition-all flex items-center justify-center gap-2 group disabled:opacity-60 disabled:cursor-not-allowed"
                     data-cursor="hover"
                   >
-                    <span>TRANSMIT DISPATCH</span>
-                    <ArrowRight size={14} className="transition-transform group-hover:translate-x-1" />
+                    {loading ? (
+                      <>
+                        <Loader2 size={14} className="animate-spin" />
+                        <span>DISPATCHING...</span>
+                      </>
+                    ) : (
+                      <>
+                        <span>TRANSMIT DISPATCH</span>
+                        <ArrowRight size={14} className="transition-transform group-hover:translate-x-1" />
+                      </>
+                    )}
                   </button>
                 </form>
               </div>
